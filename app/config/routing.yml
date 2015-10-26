@@ -1,3 +1,5 @@
-app:
-    resource: "@AppBundle/Controller/"
+ek:
+    resource: "@EKBundle/Controller/"
     type:     annotation
+    prefix:   /
+
