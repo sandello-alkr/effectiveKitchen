@@ -4,8 +4,10 @@
 
 var app = angular.module('effectiveKitchen', [
   'ngRoute',
+  'ngDragDrop',
   'controllers',
-  'tasks'
+  'tasks',
+  'recipes'
 ]);
 
 app.config(function($resourceProvider) {
@@ -19,13 +21,13 @@ app.config(['$routeProvider',
         templateUrl: '/app/views/task/list.html',
         controller: 'TaskListCtrl'
       }).
-      /*when('/tasks/new', {
-        templateUrl: '/app/views/task/detail.html',
-        controller: 'TaskNewCtrl'
-      }).*/
       when('/tasks/:id', {
         templateUrl: '/app/views/task/detail.html',
         controller: 'TaskDetailCtrl'
+      }).
+      when('/recipe/:id/builder', {
+        templateUrl: '/app/views/recipe/builder.html',
+        controller: 'RecipeBuilderCtrl'
       }).
       otherwise({
         redirectTo: 'tasks'

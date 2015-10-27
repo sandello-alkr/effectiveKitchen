@@ -3,13 +3,19 @@
 <head>
   <title></title>
   <link rel="stylesheet" type="text/css" href="/libs/bootstrap/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="/css/main.css">
+  {% stylesheets filter="compass"
+    "css/main.scss"
+  %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+  {% endstylesheets %}
 
   <script src="/libs/jquery/jquery.min.js"></script>
+  <script src="/libs/jquery-ui/jquery-ui.js"></script>
   <script src="/libs/bootstrap/bootstrap.js"></script>
   <script src="/libs/angular/angular.js"></script>
   <script src="/libs/angular-route/angular-route.js"></script>
   <script src="/libs/angular-resource/angular-resource.js"></script>
+  <script src="/libs/angular-dragdrop/angular-dragdrop.js"></script>
 
   <script src="/app/app.js"></script>
   <script src="/app/controllers.js"></script>

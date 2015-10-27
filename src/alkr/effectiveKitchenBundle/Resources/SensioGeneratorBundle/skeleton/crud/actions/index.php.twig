@@ -22,6 +22,6 @@
 {% endblock method_body %}
 
 {% block method_return %}
-        return $this->handleView($this->view(['entities' => $entities]));
+        return $this->handleView($this->view($entities));
 {% endblock method_return %}
     }

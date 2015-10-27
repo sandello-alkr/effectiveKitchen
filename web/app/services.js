@@ -13,3 +13,15 @@ tasks.factory('Task', ['$resource',
     });
   }
 ]);
+
+var recipes = angular.module('recipes', ['ngResource']);
+
+recipes.factory('Recipe', ['$resource',
+  function($resource){
+    return $resource('/api/recipe/:id', null, {
+      update: {
+        method: 'PUT' // this method issues a PUT request
+      }
+    });
+  }
+]);

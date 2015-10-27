@@ -1,0 +1,17 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-8 viewport">
+			<div class="flow" ng-repeat="flow in recipe.flows" data-drop="true" jqyoui-droppable="{multiple:true}">
+				<div class="btn btn-info btn-draggable" data-drag="true" data-drop="true" jqyoui-droppable="{index: {{$index}}}" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection'}" data-jqyoui-options="{revert: 'invalid'}" data-direction="{{item.jqyouiDirection}}" ng-model="list" ng-repeat="task in flow">{{task.name}}</div>
+			</div>
+			<div class="new flow" data-drop="true" ng-model="recipe.flows[0]" jqyoui-droppable="{multiple:true, onDrop:'dropCallback'}">
+			</div>
+		</div>
+		<div class="col-md-4 controls">
+			<input type="text" placeholder="Фильтровать"/>
+			<div class="btn btn-droppable" ng-repeat="task in tasks">
+				<div class="btn btn-info btn-draggable" data-drag="true" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection'}" data-jqyoui-options="{revert: 'invalid'}" data-direction="{{item.jqyouiDirection}}" ng-model="tasks">{{task.name}}</div>
+			</div>
+		</div>
+	</div>
+</div>
