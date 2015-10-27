@@ -78,3 +78,31 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+fos_rest:
+    routing_loader:
+        default_format: json                            # All responses should be JSON formated
+        include_format: false                           # We do not include format in request, so that all responses
+                                                        # will eventually be JSON formated
+
+# fos_rest:
+#     param_fetcher_listener: force
+#     view:
+#         formats:
+#             json: true
+#         default_engine: json
+#         view_response_listener: force
+        # exception_wrapper_handler: AppBundle\Handler\ExceptionWrapperHandler
+    # routing_loader:
+    #     default_format: json
+    # body_listener:
+    #     array_normalizer: fos_rest.normalizer.camel_keys
+    # exception:
+    #     messages:
+    #         'Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException': true
+    #         'Symfony\Component\HttpKernel\Exception\BadRequestHttpException': true
+    #         'Symfony\Component\HttpKernel\Exception\ConflictHttpException': true
+    #         'Symfony\Component\HttpKernel\Exception\HttpException': true
+    #         'Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException': true
+    #         'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': true
+    #         'Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException': true

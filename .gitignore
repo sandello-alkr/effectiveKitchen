@@ -9,3 +9,6 @@
 /composer.phar
 /vendor/
 /web/bundles/
+/web/libs/
+/node_modules/
+/bower_components/

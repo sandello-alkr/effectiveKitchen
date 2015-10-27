@@ -1,5 +1,10 @@
 ek:
     resource: "@EKBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /api
+    defaults: {_format: json}
+
+root:
+    path:   /
+    defaults:  { _controller: EKBundle:Default:index }
 
