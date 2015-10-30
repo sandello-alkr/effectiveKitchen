@@ -12,5 +12,10 @@ html, body {
 		&.new {
 			border-style: dashed;
 		}
+		.task {
+			&.passive-task {
+				opacity: 0.5;
+			}
+		}
 	}
 }

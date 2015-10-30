@@ -1,11 +1,10 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-8 viewport">
-			<div class="flow" ng-repeat="flow in recipe.flows" data-drop="true" jqyoui-droppable="{multiple:true}">
-				<div class="btn btn-info btn-draggable" data-drag="true" data-drop="true" jqyoui-droppable="{index: {{$index}}}" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection'}" data-jqyoui-options="{revert: 'invalid'}" data-direction="{{item.jqyouiDirection}}" ng-model="list" ng-repeat="task in flow">{{task.name}}</div>
+			<div class="flow" ng-repeat="flow in recipe.flows" ng-model="recipe.flows[$index]" data-drop="true" jqyoui-droppable="{multiple:true, onDrop:'dropCallback'}">
+				<div class="btn btn-info btn-draggable task" ng-class="{'passive-task': !task.active}" data-drag="true" data-drop="true" jqyoui-droppable="{index: {{$index}}}" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection'}" data-jqyoui-options="{revert: 'invalid'}" data-direction="{{item.jqyouiDirection}}" ng-model="recipe.flows[$parent.$index]" ng-repeat="task in flow" style="width: {{task.time}}px;">{{task.name}}</div>
 			</div>
-			<div class="new flow" data-drop="true" ng-model="recipe.flows[0]" jqyoui-droppable="{multiple:true, onDrop:'dropCallback'}">
-			</div>
+			<button class="btn btn-primary" ng-click="addFlow()">Добавить поток</button>
 		</div>
 		<div class="col-md-4 controls">
 			<input type="text" placeholder="Фильтровать"/>
