@@ -7,7 +7,8 @@ var app = angular.module('effectiveKitchen', [
   'ngDragDrop',
   'controllers',
   'tasks',
-  'recipes'
+  'recipes',
+  'ngDialog'
 ]);
 
 app.config(function($resourceProvider) {

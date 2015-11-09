@@ -35,6 +35,11 @@ class Recipe
      */
     private $description;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Flow", mappedBy="recipe", cascade="all")
+     **/
+    private $flows;
+
 
     /**
      * Get id
@@ -93,5 +98,46 @@ class Recipe
     {
         return $this->description;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->flows = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add flow
+     *
+     * @param \alkr\effectiveKitchenBundle\Entity\Flow $flow
+     *
+     * @return Recipe
+     */
+    public function addFlow(\alkr\effectiveKitchenBundle\Entity\Flow $flow)
+    {
+        $flow->setRecipe($this);
+        $this->flows[] = $flow;
+
+        return $this;
+    }
+
+    /**
+     * Remove flow
+     *
+     * @param \alkr\effectiveKitchenBundle\Entity\Flow $flow
+     */
+    public function removeFlow(\alkr\effectiveKitchenBundle\Entity\Flow $flow)
+    {
+        $this->flows->removeElement($flow);
+    }
+
+    /**
+     * Get flows
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFlows()
+    {
+        return $this->flows;
+    }
+}

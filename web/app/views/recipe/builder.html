@@ -1,8 +1,8 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-8 viewport">
-			<div class="flow" ng-repeat="flow in recipe.flows" ng-model="recipe.flows[$index]" data-drop="true" jqyoui-droppable="{multiple:true, onDrop:'dropCallback'}">
-				<div class="btn btn-info btn-draggable task" ng-class="{'passive-task': !task.active}" data-drag="true" data-drop="true" jqyoui-droppable="{index: {{$index}}}" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection', onStart: 'dragStart'}" data-jqyoui-options="{revert: 'invalid', greedy: true, helper: 'clone'}" data-direction="{{item.jqyouiDirection}}" ng-model="recipe.flows[$parent.$index]" ng-repeat="task in flow track by $index" style="width: {{task.time}}px;">{{task.name}}</div>
+			<div class="flow" ng-repeat="flow in recipe.flows" ng-model="recipe.flows[$index]" data-drop="true" jqyoui-droppable="{multiple:true}">
+				<div class="btn btn-info btn-draggable task" ng-class="{'passive-task': !task.active}" data-drag="true" data-drop="true" jqyoui-droppable="{index: {{$index}}, beforeDrop: 'beforeDrop'}" jqyoui-draggable="{index: {{$index}}, insertInline: true, direction:'jqyouiDirection', onStart: 'dragStart', onStop: 'dragStop'}" data-jqyoui-options="{revert: 'invalid', greedy: true, helper: 'clone'}" data-direction="{{item.jqyouiDirection}}" ng-model="recipe.flows[$parent.$index]" ng-repeat="task in flow track by $index" style="width: {{task.time}}px;" title="{{task.description}}">{{task.name}}</div>
 			</div>
 			<button class="btn btn-primary" ng-click="addFlow()">Добавить поток</button>
 		</div>
@@ -13,4 +13,5 @@
 			</div>
 		</div>
 	</div>
+	<button class="btn btn-default" ng-click="update(recipe)">Сохранить</button>
 </div>

@@ -28,8 +28,8 @@ controllers.controller('TaskDetailCtrl', ['$scope', '$routeParams', 'Task',
   }
 ]);
 
-controllers.controller('RecipeBuilderCtrl', ['$scope', '$routeParams', 'Recipe', 'Task',
-  function($scope, $routeParams, Recipe, Task) {
+controllers.controller('RecipeBuilderCtrl', ['$scope', '$q', '$routeParams', 'Recipe', 'Task', 'ngDialog',
+  function($scope, $q, $routeParams, Recipe, Task, ngDialog) {
     $scope.tasks = Task.query();
     Recipe.get({id: $routeParams.id})
       .$promise.then(function(recipe) {
@@ -41,27 +41,37 @@ controllers.controller('RecipeBuilderCtrl', ['$scope', '$routeParams', 'Recipe',
       }).catch(function(e){
         $scope.recipe = {};
         $scope.recipe['flows'] = [];
-        $scope.recipe['flows'].push($scope.tasks);
+        $scope.recipe['flows'].push();
         console.log(e);
         $scope.update = function() {
-          Recipe.save($scope.recipe);
+          ngDialog.open({
+            template: '/app/views/recipe/popupTmpl.html',
+            controller: ['$scope', 'Recipe', function($scope, Recipe) {
+              $scope.save = function() {
+                Recipe.save($scope.recipe);
+              }
+            }]
+          });
         };
       })
 
-    $scope.dropCallback = function(event, ui) {
-      // $scope.recipe.flows[0]
-      // $(ui.draggable).detach().css({top: 0,left: 0}).appendTo(event.target);
-      console.log('hey, you dumped me :-(' , $scope.draggedTitle);
-    };
-
     $scope.dragStart = function(event, ui) {
-      // $('.flow').droppable('disable');
+      $(event.target).parent().droppable('disable');
     };
 
     $scope.dragStop = function(event, ui) {
-      // console.log(event.target);
-      // $(event.target.parentElement).droppable('disable');
+      $('.flow').droppable('enable');
     };
+
+    $scope.beforeDrop = function(event, ui) {
+      var deferred = $q.defer();
+      if ($(event.target).scope().$parent.$id == $(event.toElement).scope().$id) {
+        deferred.resolve();
+      } else {
+        deferred.reject();
+      }
+      return deferred.promise;
+    }
 
     $scope.addFlow = function() {
       $scope.recipe['flows'].push([])

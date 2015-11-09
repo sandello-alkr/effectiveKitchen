@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use alkr\effectiveKitchenBundle\Entity\Recipe;
 use alkr\effectiveKitchenBundle\Form\RecipeType;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Recipe controller.
@@ -88,12 +89,31 @@ class RecipeController extends FOSRestController
             throw $this->createNotFoundException('Unable to find Recipe entity.');
         }
 
+        $originalFlows = new ArrayCollection();
+        foreach ($entity->getFlows() as $flow) {
+            $originalFlows->add($flow);
+        }
+
         $form = $this->createForm(new RecipeType(), $entity);
-        $form->submit($request, false);
+        $form->handleRequest($request);
 
-        $em->flush();
+        if ($form->isValid()) {
+            foreach ($originalFlows as $flow) {
+                if (false === $task->getTags()->contains($flow)) {
+                    // if it was a many-to-one relationship, remove the relationship like this
+                    $flow->setTask(null);
+                    // if you wanted to delete the Tag entirely, you can also do that
+                    $em->remove($tag);
+                }
+            }
+            $em->persist($entity);
+            $em->flush();
+            return $this->handleView($this->view(true));
+        }
+        dump($form->getErrors(true));
+        // dump($form->getErrors());die;
 
-        return $this->handleView($this->view(true));
+        return $this->handleView($this->view(false));
     }
 
     /**

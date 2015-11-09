@@ -49,6 +49,12 @@ class Task
      */
     private $active;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Flow", inversedBy="tasks")
+     * @ORM\JoinColumn(name="flow_id", referencedColumnName="id")
+     **/
+    private $flow;
+
 
     /**
      * Get id
@@ -155,5 +161,28 @@ class Task
     {
         return $this->active;
     }
-}
 
+    /**
+     * Set flow
+     *
+     * @param \alkr\effectiveKitchenBundle\Entity\Flow $flow
+     *
+     * @return Task
+     */
+    public function setFlow(\alkr\effectiveKitchenBundle\Entity\Flow $flow = null)
+    {
+        $this->flow = $flow;
+
+        return $this;
+    }
+
+    /**
+     * Get flow
+     *
+     * @return \alkr\effectiveKitchenBundle\Entity\Flow
+     */
+    public function getFlow()
+    {
+        return $this->flow;
+    }
+}

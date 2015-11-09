@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class TaskType extends AbstractType
+class FlowType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,10 +15,7 @@ class TaskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('time')
-            ->add('active')
+            ->add('tasks', 'collection', ['allow_add'=>true, 'allow_delete'=>true, 'type'=>new TaskType()])
         ;
     }
 
@@ -29,7 +26,7 @@ class TaskType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
-            'data_class' => 'alkr\effectiveKitchenBundle\Entity\Task'
+            'data_class' => 'alkr\effectiveKitchenBundle\Entity\Flow'
         ));
     }
 
