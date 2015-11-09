@@ -41,7 +41,7 @@ controllers.controller('RecipeBuilderCtrl', ['$scope', '$routeParams', 'Recipe',
       }).catch(function(e){
         $scope.recipe = {};
         $scope.recipe['flows'] = [];
-        $scope.recipe['flows'].push([]);
+        $scope.recipe['flows'].push($scope.tasks);
         console.log(e);
         $scope.update = function() {
           Recipe.save($scope.recipe);
@@ -52,6 +52,20 @@ controllers.controller('RecipeBuilderCtrl', ['$scope', '$routeParams', 'Recipe',
       // $scope.recipe.flows[0]
       // $(ui.draggable).detach().css({top: 0,left: 0}).appendTo(event.target);
       console.log('hey, you dumped me :-(' , $scope.draggedTitle);
+    };
+
+    $scope.dragStart = function(event, ui) {
+      // $('.flow').droppable('disable');
+    };
+
+    $scope.beforeDrop = function(event, ui) {
+      $('.flow').droppable('disable');
+      return function() {return true};
+    };
+
+    $scope.dragStop = function(event, ui) {
+      console.log(event.target);
+      $(event.target.parentElement).droppable('enable');
     };
 
     $scope.addFlow = function() {
