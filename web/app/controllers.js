@@ -58,14 +58,9 @@ controllers.controller('RecipeBuilderCtrl', ['$scope', '$routeParams', 'Recipe',
       // $('.flow').droppable('disable');
     };
 
-    $scope.beforeDrop = function(event, ui) {
-      $('.flow').droppable('disable');
-      return function() {return true};
-    };
-
     $scope.dragStop = function(event, ui) {
-      console.log(event.target);
-      $(event.target.parentElement).droppable('enable');
+      // console.log(event.target);
+      // $(event.target.parentElement).droppable('disable');
     };
 
     $scope.addFlow = function() {
