@@ -36,12 +36,24 @@ controllers.controller('RecipeBuilderCtrl', ['$scope', '$q', '$routeParams', 'Re
         console.log(recipe);
         $scope.recipe = recipe;
         $scope.update = function() {
+          /*$scope.recipe.flows.each(function(f, i) {
+            console.log('i', i);
+            console.log('f', f);
+            var tasks = [];
+            f.forEach(function(task, i) {
+              tasks.push(task);
+              delete f[i];
+            })
+            console.log(tasks);
+            f.tasks = tasks;
+          })
+          console.log($scope.recipe);*/
           Recipe.update({id: $scope.recipe.id}, $scope.recipe);
         };
       }).catch(function(e){
         $scope.recipe = {};
         $scope.recipe['flows'] = [];
-        $scope.recipe['flows'].push();
+        $scope.recipe['flows'].push([]);
         console.log(e);
         $scope.update = function() {
           ngDialog.open({
@@ -74,7 +86,7 @@ controllers.controller('RecipeBuilderCtrl', ['$scope', '$q', '$routeParams', 'Re
     }
 
     $scope.addFlow = function() {
-      $scope.recipe['flows'].push([])
+      $scope.recipe['flows'].push({tasks:[]})
     }
   }
 ]);

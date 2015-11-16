@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Flow
+class Flow extends BasicEntity
 {
     /**
      * @var integer
@@ -19,18 +19,26 @@ class Flow
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="Recipe", inversedBy="flows")
      * @ORM\JoinColumn(name="recipe_id", referencedColumnName="id")
      **/
-    private $recipe;
+    protected $recipe;
 
     /**
      * @ORM\OneToMany(targetEntity="Task", mappedBy="flow", cascade="all")
      **/
-    private $tasks;
+    protected $tasks;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -65,13 +73,6 @@ class Flow
     public function getRecipe()
     {
         return $this->recipe;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tasks = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace alkr\effectiveKitchenBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Recipe
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Recipe
+class Recipe extends BasicEntity
 {
     /**
      * @var integer
@@ -19,27 +20,34 @@ class Recipe
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text")
      */
-    private $description;
+    protected $description;
 
     /**
      * @ORM\OneToMany(targetEntity="Flow", mappedBy="recipe", cascade="all")
      **/
-    private $flows;
+    protected $flows;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->flows = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -98,13 +106,6 @@ class Recipe
     {
         return $this->description;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->flows = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add flow
@@ -115,8 +116,8 @@ class Recipe
      */
     public function addFlow(\alkr\effectiveKitchenBundle\Entity\Flow $flow)
     {
-        $flow->setRecipe($this);
         $this->flows[] = $flow;
+        $flow->setRecipe($this);
 
         return $this;
     }
@@ -129,6 +130,7 @@ class Recipe
     public function removeFlow(\alkr\effectiveKitchenBundle\Entity\Flow $flow)
     {
         $this->flows->removeElement($flow);
+        $flow->setRecipe(null);
     }
 
     /**

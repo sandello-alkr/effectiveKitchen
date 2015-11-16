@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Task
+class Task extends BasicEntity
 {
     /**
      * @var integer
@@ -19,41 +19,41 @@ class Task
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text")
      */
-    private $description;
+    protected $description;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="time", type="integer")
      */
-    private $time;
+    protected $time;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="active", type="boolean")
      */
-    private $active;
+    protected $active;
 
     /**
      * @ORM\ManyToOne(targetEntity="Flow", inversedBy="tasks")
      * @ORM\JoinColumn(name="flow_id", referencedColumnName="id")
      **/
-    private $flow;
+    protected $flow;
 
 
     /**

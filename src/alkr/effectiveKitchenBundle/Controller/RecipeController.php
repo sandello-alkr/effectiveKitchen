@@ -83,33 +83,42 @@ class RecipeController extends FOSRestController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('EKBundle:Recipe')->find($id);
+        $recipe = $em->getRepository('EKBundle:Recipe')->find($id);
 
-        if (!$entity) {
+        if (!$recipe) {
             throw $this->createNotFoundException('Unable to find Recipe entity.');
         }
 
         $originalFlows = new ArrayCollection();
-        foreach ($entity->getFlows() as $flow) {
+        foreach ($recipe->getFlows() as $flow) {
             $originalFlows->add($flow);
         }
 
-        $form = $this->createForm(new RecipeType(), $entity);
-        $form->handleRequest($request);
+        $request = $request->request->all();
+        foreach ($request['flows'] as $key => $flow) {
+            $tmp = $flow;
+            unset($request['flows'][$key]);
+            foreach ($tmp as $k => $task) {
+                unset($tmp[$k]['id']);
+            }
+            $request['flows'][$key]['tasks'] = $tmp;
+        }
+        unset($request['id']);
+        $form = $this->createForm(new RecipeType(), $recipe);
+        $form->submit($request);
 
         if ($form->isValid()) {
             foreach ($originalFlows as $flow) {
-                if (false === $task->getTags()->contains($flow)) {
-                    // if it was a many-to-one relationship, remove the relationship like this
-                    $flow->setTask(null);
-                    // if you wanted to delete the Tag entirely, you can also do that
-                    $em->remove($tag);
+                if (false === $recipe->getFlows()->contains($flow)) {
+                    $flow->setRecipe(null);
+                    $em->remove($flow);
                 }
             }
-            $em->persist($entity);
+            $recipe->setInverseSideDependencies();
             $em->flush();
             return $this->handleView($this->view(true));
         }
+        dump($form->isSubmitted());
         dump($form->getErrors(true));
         // dump($form->getErrors());die;
 
